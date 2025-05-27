@@ -4,7 +4,8 @@ A modern, feature-rich form builder and management application built with React.
 
 **Live Demo:** [https://form-builder-alpha-ten.vercel.app/](https://form-builder-alpha-ten.vercel.app/)
 
-![Form Builder Screenshot](https://i.imgur.com/placeholder.png)
+![image](https://github.com/user-attachments/assets/97f72dc5-aba0-4d5d-af95-0630cbfa4425)
+
 
 ## Features
 
