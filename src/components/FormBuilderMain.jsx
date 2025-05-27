@@ -421,7 +421,7 @@ const FormBuilder = () => {
       {/* Templates Modal */}
       {showTemplates && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className={`w-[450px] max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
+          <div className={`w-[650px] max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
             darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800 backdrop-blur-xl'
           }`}>
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
