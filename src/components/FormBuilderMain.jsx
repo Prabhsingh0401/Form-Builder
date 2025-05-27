@@ -1,5 +1,5 @@
 import { useState, useReducer, useEffect } from 'react';
-import { FileText, Copy, BarChart3 } from 'lucide-react';
+import { FileText, Copy, BarChart3, Save } from 'lucide-react';
 import PreviewToggle from './PreviewToggle';
 import ThemeToggle from './ThemeToggle';
 import FieldPalette from './FieldPallette';
@@ -125,6 +125,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
       setAppDarkMode(darkMode);
     }
   }, [darkMode, setAppDarkMode]);
+  
   const [previewMode, setPreviewMode] = useState('desktop');
   const [selectedField, setSelectedField] = useState(null);
   const [showTemplates, setShowTemplates] = useState(false);
@@ -148,6 +149,26 @@ const FormBuilder = ({ setAppDarkMode }) => {
   };
 
   const [state, dispatch] = useReducer(formReducer, initialState);
+
+  // Manual save function
+  const saveForm = () => {
+    try {
+      const formsData = JSON.parse(localStorage.getItem('formBuilderForms') || '{}');
+      formsData[state.currentForm.id] = state.currentForm;
+      localStorage.setItem('formBuilderForms', JSON.stringify(formsData));
+      
+      // Show save notification
+      setShowSaveNotification(true);
+      
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        setShowSaveNotification(false);
+      }, 3000);
+    } catch (error) {
+      console.warn('Save failed:', error);
+      alert('Failed to save form. Please try again.');
+    }
+  };
 
   const handleFieldUpdate = (field) => {
     dispatch({
@@ -235,7 +256,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
   const generateFormId = () => {
     return 'form_' + Math.random().toString(36).substr(2, 9);
   };
-  
+
   const shareForm = () => {
     const shareId = generateFormId();
     const shareableForm = { ...state.currentForm, shareId };
@@ -273,15 +294,19 @@ const FormBuilder = ({ setAppDarkMode }) => {
     <div className={`min-h-screen transition-colors duration-300 ${
       darkMode 
         ? 'bg-gray-900 text-gray-100' 
-        : 'bg-gray-100 text-gray-900'
+        : 'bg-gray-50 text-gray-900'
     }`}>
       {/* Modern Header */}
       <header className={`relative px-6 py-4 ${
         darkMode 
           ? 'bg-gray-900 border-b border-gray-700/50' 
-          : 'bg-white border-b border-gray-700/80'
+          : 'bg-white border-b border-gray-200'
       }`}>
-
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 bg-[#111828]"></div>
+        </div>
+        
         <div className="relative flex items-center justify-between">
           <div className="flex items-center space-x-6">
             {/* Logo/Brand */}
@@ -341,24 +366,36 @@ const FormBuilder = ({ setAppDarkMode }) => {
             <div className="flex items-center space-x-3">
               
               <button
-                onClick={saveAsTemplate}
-                className={`group px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
+                onClick={saveForm}
+                className={`group px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
                   darkMode 
                     ? 'bg-gray-800/60 hover:bg-gray-700/60 text-gray-300 hover:text-white border border-gray-700/50 hover:border-gray-600' 
-                    : 'bg-white/60 hover:bg-white text-gray-700 hover:text-gray-900 border border-gray-200/60 hover:border-gray-300 shadow-sm hover:shadow'
-                } backdrop-blur-sm`}
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 border border-gray-200 shadow-sm hover:shadow'
+                }`}
+              >
+                <Save size={16} className="transition-transform group-hover:scale-110" />
+                <span>Save</span>
+              </button>
+              
+              <button
+                onClick={saveAsTemplate}
+                className={`group px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
+                  darkMode 
+                    ? 'bg-gray-800/60 hover:bg-gray-700/60 text-gray-300 hover:text-white border border-gray-700/50 hover:border-gray-600' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 border border-gray-200 shadow-sm hover:shadow'
+                }`}
               >
                 <FileText size={16} className="transition-transform group-hover:scale-110" />
-                <span>Save</span>
+                <span>Template it</span>
               </button>
 
               <button
                 onClick={() => setShowTemplates(true)}
-                className={`group px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
+                className={`group px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
                   darkMode 
                     ? 'bg-gray-800/60 hover:bg-gray-700/60 text-gray-300 hover:text-white border border-gray-700/50 hover:border-gray-600' 
-                    : 'bg-white/60 hover:bg-white text-gray-700 hover:text-gray-900 border border-gray-200/60 hover:border-gray-300 shadow-sm hover:shadow'
-                } backdrop-blur-sm`}
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 border border-gray-200 shadow-sm hover:shadow'
+                }`}
               >
                 <FileText size={16} className="transition-transform group-hover:scale-110" />
                 <span>Templates</span>
@@ -366,11 +403,11 @@ const FormBuilder = ({ setAppDarkMode }) => {
               
               <button
                 onClick={viewResponses}
-                className={`group px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
+                className={`group px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
                   darkMode 
                     ? 'bg-gray-800/60 hover:bg-gray-700/60 text-gray-300 hover:text-white border border-gray-700/50 hover:border-gray-600' 
-                    : 'bg-white/60 hover:bg-white text-gray-700 hover:text-gray-900 border border-gray-200/60 hover:border-gray-300 shadow-sm hover:shadow'
-                } backdrop-blur-sm`}
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 border border-gray-200 shadow-sm hover:shadow'
+                }`}
               >
                 <BarChart3 size={16} className="transition-transform group-hover:scale-110" />
                 <span>Responses</span>
@@ -381,7 +418,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
                 className={`group px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
                   darkMode 
                     ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border hover:shadow-emerald-500/40' 
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-black border hover:shadow-emerald-500/40'
+                    : 'bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white border hover:shadow-purple-500/40'
                 }`}
               >
                 <Copy size={16} className="transition-transform group-hover:scale-110" />
@@ -428,12 +465,12 @@ const FormBuilder = ({ setAppDarkMode }) => {
       {/* Templates Modal */}
       {showTemplates && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className={`w-[650px] max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
-            darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800 backdrop-blur-xl'
+          <div className={`w-[450px] max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
+            darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'
           }`}>
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className={`text-xl font-bold ${
-                darkMode ? 'text-cyan-400' : 'text-indigo-600'
+                darkMode ? 'text-cyan-400' : 'text-gray-800'
               }`}>
                 Choose Template
               </h3>
@@ -455,15 +492,15 @@ const FormBuilder = ({ setAppDarkMode }) => {
                     onClick={() => loadTemplate(key)}
                     className={`p-4 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${
                       darkMode 
-                        ? 'border-gray-700 hover:border-cyan-500 bg-gray-700/50 hover:bg-gray-700/80' 
-                        : 'border-[#c0e6e9]/30 hover:border-indigo-300 bg-[#c0e6e9]/10 hover:bg-[#c0e6e9]/20'
+                        ? 'border-gray-700 hover:border-gray-600 bg-gray-700/50 hover:bg-gray-700/80' 
+                        : 'border-gray-200 hover:border-gray-300 bg-gray-50 hover:bg-gray-100'
                     }`}
                   >
                     <div className="flex items-center">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-3 ${
                         darkMode 
-                          ? 'bg-gray-800 text-cyan-400' 
-                          : 'bg-[#c0e6e9]/30 text-indigo-600'
+                          ? 'bg-gray-800 text-gray-300' 
+                          : 'bg-gray-100 text-gray-700'
                       }`}>
                         <FileText size={20} />
                       </div>
@@ -487,7 +524,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
                 className={`py-2.5 px-5 rounded-xl font-medium transition-all ${
                   darkMode 
                     ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
-                    : 'bg-[#c0e6e9]/30 hover:bg-[#c0e6e9]/50 text-gray-700'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                 }`}
               >
                 Cancel
@@ -501,11 +538,11 @@ const FormBuilder = ({ setAppDarkMode }) => {
       {showSaveTemplateModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div className={`w-[450px] rounded-2xl shadow-2xl overflow-hidden ${
-            darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800 backdrop-blur-xl'
+            darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'
           }`}>
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className={`text-xl font-bold ${
-                darkMode ? 'text-cyan-400' : 'text-indigo-600'
+                darkMode ? 'text-cyan-400' : 'text-gray-800'
               }`}>
                 Save as Template
               </h3>
@@ -531,14 +568,14 @@ const FormBuilder = ({ setAppDarkMode }) => {
                     className={`w-full px-4 py-3 rounded-xl border ${
                       darkMode 
                         ? 'bg-gray-700 border-gray-600 text-gray-200 focus:border-cyan-500' 
-                        : 'bg-[#c0e6e9]/10 border-[#c0e6e9]/30 text-gray-900 focus:border-indigo-400'
+                        : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-gray-400'
                     } focus:outline-none focus:ring-2 focus:ring-opacity-20 ${
-                      darkMode ? 'focus:ring-cyan-500' : 'focus:ring-indigo-300'
+                      darkMode ? 'focus:ring-cyan-500' : 'focus:ring-gray-300'
                     }`}
                   />
                   <div className={`absolute bottom-0 left-0 h-0.5 rounded-full transition-all ${
                     templateName ? 'w-full' : 'w-0'
-                  } ${darkMode ? 'bg-cyan-500/50' : 'bg-indigo-500/50'}`}></div>
+                  } ${darkMode ? 'bg-cyan-500/50' : 'bg-gray-500/50'}`}></div>
                 </div>
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   This template will be available in your templates list for future use.
@@ -559,7 +596,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
                 className={`py-2.5 px-5 rounded-xl font-medium transition-all ${
                   darkMode 
                     ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
-                    : 'bg-[#c0e6e9]/30 hover:bg-[#c0e6e9]/50 text-gray-700'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                 }`}
               >
                 Cancel
@@ -569,8 +606,8 @@ const FormBuilder = ({ setAppDarkMode }) => {
                 className={`py-2.5 px-5 rounded-xl font-medium transition-all ${
                   darkMode 
                     ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white' 
-                    : 'bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white'
-                } shadow-lg hover:shadow-xl hover:shadow-blue-500/20`}
+                    : 'bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white'
+                } shadow-lg hover:shadow-xl`}
               >
                 Save Template
               </button>
@@ -593,7 +630,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
           <div className={`w-2 h-2 rounded-full animate-pulse ${
             darkMode ? 'bg-green-400' : 'bg-green-500'
           }`}></div>
-          <span className="text-sm font-medium">Form auto-saved</span>
+          <span className="text-sm font-medium">Form saved</span>
           <div className={`text-xs px-2 py-1 rounded ${
             darkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-500'
           }`}>
@@ -610,8 +647,8 @@ const FormBuilder = ({ setAppDarkMode }) => {
       }`}>
         <div className={`px-5 py-4 rounded-xl shadow-xl flex items-center space-x-3 ${
           darkMode 
-            ? 'bg-gray-800 border border-gray-600 text-gray-200 backdrop-blur-md' 
-            : 'bg-white border border-[#c0e6e9]/50 text-gray-800 backdrop-blur-md shadow-[#c0e6e9]/20'
+            ? 'bg-gray-800/95 border border-gray-600 text-gray-200' 
+            : 'bg-white/95 border border-gray-200 text-gray-800 shadow-gray-200'
         }`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
             darkMode ? 'bg-emerald-900/50 text-emerald-400' : 'bg-emerald-100 text-emerald-600'
