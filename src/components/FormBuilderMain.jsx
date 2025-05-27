@@ -647,8 +647,8 @@ const FormBuilder = ({ setAppDarkMode }) => {
       }`}>
         <div className={`px-5 py-4 rounded-xl shadow-xl flex items-center space-x-3 ${
           darkMode 
-            ? 'bg-gray-800/95 border border-gray-600 text-gray-200' 
-            : 'bg-white/95 border border-gray-200 text-gray-800 shadow-gray-200'
+            ? 'bg-gray-800 border border-gray-600 text-gray-200' 
+            : 'bg-white border border-gray-200 text-gray-800 shadow-gray-200'
         }`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
             darkMode ? 'bg-emerald-900/50 text-emerald-400' : 'bg-emerald-100 text-emerald-600'
