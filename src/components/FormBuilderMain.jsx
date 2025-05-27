@@ -116,8 +116,15 @@ const FORM_TEMPLATES = {
   }
 };
 
-const FormBuilder = () => {
+const FormBuilder = ({ setAppDarkMode }) => {
   const [darkMode, setDarkMode] = useState(false);
+  
+  // Sync dark mode with app-level state
+  useEffect(() => {
+    if (setAppDarkMode) {
+      setAppDarkMode(darkMode);
+    }
+  }, [darkMode, setAppDarkMode]);
   const [previewMode, setPreviewMode] = useState('desktop');
   const [selectedField, setSelectedField] = useState(null);
   const [showTemplates, setShowTemplates] = useState(false);

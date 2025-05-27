@@ -11,14 +11,14 @@ const App = () => {
   const viewResponses = urlParams.get('responses');
   
   if (viewResponses === 'true') {
-    return <ResponseViewer darkMode={darkMode} onBack={() => window.location.href = '/'} />;
+    return <ResponseViewer darkMode={darkMode} setDarkMode={setDarkMode} onBack={() => window.location.href = '/'} />;
   }
   
   if (formId) {
     return <FormFiller formId={formId} darkMode={darkMode} />;
   }
   
-  return <FormBuilder />;
+  return <FormBuilder setAppDarkMode={setDarkMode} />;
 };
 
 export default App;
