@@ -102,7 +102,7 @@ const FormCanvas = ({ form, dispatch, selectedField, setSelectedField, darkMode 
   
   return (
     <div 
-      className={`flex-1 overflow-y-auto scrollbar-hide p-6 ${
+      className={`flex-1 overflow-y-auto h-[90vh] scrollbar-hide p-6 ${
         darkMode ? 'bg-gray-800' : 'bg-white/60 backdrop-blur-md'
       }`}
       onDragOver={handleDragOver}

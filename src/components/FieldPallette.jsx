@@ -13,7 +13,7 @@ const FIELD_TYPES = {
 };
 
 const FieldPalette = ({ darkMode }) => (
-  <div className={`w-70 border-r backdrop-blur-sm ${
+  <div className={`w-70 h-[90vh] border-r backdrop-blur-sm ${
     darkMode 
       ? 'bg-slate-900/95 border-gray-700' 
       : 'bg-white border-slate-200/50'
@@ -43,8 +43,8 @@ const FieldPalette = ({ darkMode }) => (
             }}
             className={`group flex items-center gap-3 px-3 py-2 rounded-lg cursor-grab active:cursor-grabbing transition-all duration-200 select-none ${
               darkMode 
-                ? 'hover:bg-slate-800/70 active:bg-slate-700/70 border border-transparent hover:border-slate-600/50' 
-                : 'hover:bg-slate-50 active:bg-slate-100 border border-transparent hover:border-slate-200/60'
+                ? 'hover:bg-[#202938] active:bg-slate-700/70 border border-transparent hover:border-slate-600/50' 
+                : 'hover:bg-gray-300 active:bg-slate-100 border border-transparent hover:border-slate-200/60 cursor-pointer'
             }`}
           >
             <div className={`flex items-center justify-center w-8 h-8 rounded-md transition-colors ${

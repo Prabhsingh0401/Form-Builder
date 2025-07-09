@@ -6,6 +6,7 @@ import FieldPalette from './FieldPallette';
 import FormCanvas from './FormCanvas';
 import FormPreview from './FormPreview';
 import FieldEditor from './FieldEditor';
+import ClerkUserMenu from './ClerkUserMenu';
 
 const formReducer = (state, action) => {
   const newState = (() => {
@@ -291,7 +292,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`min-h-screen transition-colors duration-300 scrollbar-hidden ${
       darkMode 
         ? 'bg-gray-900 text-gray-100' 
         : 'bg-gray-50 text-gray-900'
@@ -323,7 +324,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
                     ? 'text-cyan-400' 
                     : 'bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent'
                 }`}>
-                Form Builder
+                Formify
               </h1>
             </div>
             
@@ -429,12 +430,14 @@ const FormBuilder = ({ setAppDarkMode }) => {
             {/* Theme Toggle */}
             <div className={`w-px h-8 ${darkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
             <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+            {/* Clerk User Menu */}
+            <ClerkUserMenu darkMode={darkMode} />
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="flex h-[calc(100vh-85px)]">
+      <div className="flex h-screen">
         <FieldPalette darkMode={darkMode} />
         
         <FormCanvas
@@ -465,7 +468,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
       {/* Templates Modal */}
       {showTemplates && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className={`w-[450px] max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
+          <div className={`w-80 max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl ${
             darkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'
           }`}>
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -476,7 +479,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
               </h3>
               <button 
                 onClick={() => setShowTemplates(false)}
-                className={`p-2 rounded-full hover:bg-gray-600 dark:hover:bg-gray-700`}
+                className={`p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700`}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

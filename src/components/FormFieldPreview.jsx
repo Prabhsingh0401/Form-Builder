@@ -1,5 +1,5 @@
 const FormFieldPreview = ({ field, darkMode }) => {
-  const baseInputClasses = `w-full p-3 border rounded-lg transition-all ${
+  const baseInputClasses = `w-full h-screen p-3 border rounded-lg transition-all ${
     darkMode 
       ? 'bg-gray-700 border-gray-600 text-gray-200 focus:border-cyan-500' 
       : 'bg-white/70 border-[#c0e6e9]/50 text-gray-900 focus:border-purple-500 backdrop-blur-sm'

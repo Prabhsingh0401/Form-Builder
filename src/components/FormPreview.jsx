@@ -28,7 +28,7 @@ const FormPreview = ({ form, previewMode, darkMode }) => {
   const { width, containerClass, icon } = getPreviewStyles();
 
   return (
-    <div className={`${containerClass} border-l p-4 overflow-x-auto scrollbar-hide ${
+    <div className={`${containerClass} h-[90vh] border-l p-4 overflow-x-auto scrollbar-hide ${
       darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-white/20 backdrop-blur-lg'
     }`}>
       <div className="flex items-center justify-between mb-6">
