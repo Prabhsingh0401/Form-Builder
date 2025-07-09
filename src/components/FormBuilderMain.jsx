@@ -378,7 +378,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
                 <span>Save</span>
               </button>
               
-              <button
+              {/* <button
                 onClick={saveAsTemplate}
                 className={`group px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 ${
                   darkMode 
@@ -388,7 +388,7 @@ const FormBuilder = ({ setAppDarkMode }) => {
               >
                 <FileText size={16} className="transition-transform group-hover:scale-110" />
                 <span>Template it</span>
-              </button>
+              </button> */}
 
               <button
                 onClick={() => setShowTemplates(true)}
