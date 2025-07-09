@@ -1,11 +1,9 @@
-# Form Builder
+# Formify
 
 A modern, feature-rich form builder and management application built with React. Create, share, and collect responses with a clean, intuitive interface.
 
 **Live Demo:** [https://form-builder-alpha-ten.vercel.app/](https://form-builder-alpha-ten.vercel.app/)
-
-![image](https://github.com/user-attachments/assets/97f72dc5-aba0-4d5d-af95-0630cbfa4425)
-
+![image](https://github.com/user-attachments/assets/56f022e2-52aa-4af6-964d-90cea478005c)
 
 ## Features
 
